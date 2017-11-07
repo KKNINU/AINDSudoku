@@ -1,0 +1,3 @@
+import math
+val = -0.66*math.log(0.66, 2) -0.33*math.log(0.33, 2)
+print (val)
