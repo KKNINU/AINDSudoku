@@ -61,11 +61,41 @@ def naked_twins(values):
                 seen.add(t)
 
         for i in range(len(naked_twins)):
+            delset = {}
             box1 = naked_twins[i][0]
             box2 = naked_twins[i][1]
+            for i in range(len(d1_units)):
+                if (box1 in d1_units[i] and box2 in d1_units[i]):
+        # or (box1 in d2_units and box2 in d2_units):
+                    b1 = list(box1)
+                    b2 = list(box2)
+#                    print (b1[1], "  b1b2   ", b2)
+                    elem1 = b1[0] + b2[1]
+                    elem2 = b2[0] + b1[1]
+                    delset = {elem1,elem2}
+#                    print ("box 1 = ", box1, " box 2 = ", box2, "  elem1 = ", elem1, " elem2 ", elem2)
+            for i in range(len(d2_units)):
+                if (box1 in d2_units[i] and box2 in d2_units[i]):
+        # or (box1 in d2_units and box2 in d2_units):
+                    b1 = list(box1)
+                    b2 = list(box2)
+#                    print (b1[1], "  b1b2   ", b2)
+                    elem1 = b1[0] + b2[1]
+                    elem2 = b2[0] + b1[1]
+                    delset = {elem1,elem2}
+                    print ("box 1 = ", box1, " box 2 = ", box2, "  elem1 = ", elem1, " elem2 ", elem2)
+
+
+
             peers1 = set(peers[box1])
             peers2 = set(peers[box2])
-            peers_int = peers1 & peers2
+            peers_int1 = peers1 & peers2
+            peers_int = peers_int1.difference(delset)
+#            print("box1 =", box1, "   box 2 = ", box2, " peers int  =  ", peers_int)
+#            if peers_int1 <> peers_int:
+#                print ("peers_int1   = ", peers_int1)
+#                print ("peers_int   = ", peers_int)
+
             for peer_val in peers_int:
                 if len(values[peer_val])>2:
                     for rm_val in values[box1]:
@@ -281,8 +311,9 @@ def solve(grid):
     return values
 
 if __name__ == '__main__':
-#    diag_sudoku_grid = '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
-    diag_sudoku_grid = '.4..8.........6.........5..358..91.....................9.....8....97.34...7....9.'
+    diag_sudoku_grid = '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
+#    diag_sudoku_grid = '.4..8.........6.........5..358..91.....................9.....8....97.34...7....9.'
+
     # To print unsolved grid
     values = grid_values_unsolved(diag_sudoku_grid)
     display(values)
